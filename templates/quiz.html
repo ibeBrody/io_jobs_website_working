@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="quiz-container">
+    <h2>Job Profiler Quiz</h2>
+    <form method="post">
+
+        {% if quiz_questions|length > 0 %}
+        <!-- Education -->
+        <div class="question">
+            <label for="education">{{ quiz_questions[0].question }}</label>
+            <select id="education" name="education" class="select-dropdown">
+                {% for option in quiz_questions[0].options %}
+                <option value="{{ option }}" {% if saved_answers and saved_answers.get('education') == option %}selected{% endif %}>{{ option|capitalize }}</option>
+                {% endfor %}
+            </select>
+        </div>        
+        {% endif %}
+
+        {% if quiz_questions|length > 1 %}
+        <!-- Certifications -->
+        <div class="question">
+            <label>{{ quiz_questions[1].question }}</label>
+            <div class="checkbox-container">
+                {% for option in quiz_questions[1].options %}
+                <div class="checkbox-item">
+                    <input type="checkbox" id="certifications{{ loop.index }}" name="certifications" value="{{ option }}" {% if saved_answers and option in saved_answers.get('certifications', []) %}checked{% endif %}>
+                    <label for="certifications{{ loop.index }}">{{ option }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if quiz_questions|length > 2 %}
+        <!-- Additional Training -->
+        <div class="question">
+            <label>{{ quiz_questions[2].question }}</label>
+            <div class="checkbox-container">
+                {% for option in quiz_questions[2].options %}
+                <div class="checkbox-item">
+                    <input type="checkbox" id="training{{ loop.index }}" name="training" value="{{ option }}" {% if saved_answers and option in saved_answers.get('training', []) %}checked{% endif %}>
+                    <label for="training{{ loop.index }}">{{ option }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if quiz_questions|length > 3 %}
+        <!-- Skills -->
+        <div class="question">
+            <label>{{ quiz_questions[3].question }}</label>
+            <div class="checkbox-container">
+                {% for option in quiz_questions[3].options %}
+                <div class="checkbox-item">
+                    <input type="checkbox" id="skill{{ loop.index }}" name="skills" value="{{ option }}" {% if saved_answers and option in saved_answers.get('skills', []) %}checked{% endif %}>
+                    <label for="skill{{ loop.index }}">{{ option | capitalize }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if quiz_questions|length > 4 %}
+        <!-- Knowledge -->
+        <div class="question">
+            <label>{{ quiz_questions[4].question }}</label>
+            <div class="checkbox-container">
+                {% for option in quiz_questions[4].options %}
+                <div class="checkbox-item">
+                    <input type="checkbox" id="knowledge{{ loop.index }}" name="knowledge" value="{{ option }}" {% if saved_answers and option in saved_answers.get('knowledge', []) %}checked{% endif %}>
+                    <label for="knowledge{{ loop.index }}">{{ option }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if quiz_questions|length > 5 %}
+        <!-- Abilities -->
+        <div class="question">
+            <label>{{ quiz_questions[5].question }}</label>
+            <div class="checkbox-container">
+                {% for option in quiz_questions[5].options %}
+                <div class="checkbox-item">
+                    <input type="checkbox" id="ability{{ loop.index }}" name="abilities" value="{{ option }}" {% if saved_answers and option in saved_answers.get('abilities', []) %}checked{% endif %}>
+                    <label for="ability{{ loop.index }}">{{ option }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if quiz_questions|length > 6 %}
+        <!-- Experience -->
+        <div class="question">
+            <label for="experience">{{ quiz_questions[6].question }}</label>
+            <select id="experience" name="experience" class="select-dropdown">
+                {% for option in quiz_questions[6].options %}
+                <option value="{{ option }}" {% if saved_answers and saved_answers.get('experience') == option %}selected{% endif %}>{{ option }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% endif %}
+
+        <input type="submit" value="Submit" class="submit-btn">
+        <!-- Button to Start a New Quiz -->
+        <a href="{{ url_for('new_quiz') }}" class="btn btn-secondary">Start a New Quiz</a>
+    </form>
+
+    {% if matched_jobs is not none and matched_jobs|length > 0 %}
+    <h3>Matched Jobs</h3>
+    <div class="matched-jobs-container">
+        {% for job in matched_jobs.itertuples() %}
+        <div class="job-card">
+            <a href="{{ url_for('job_detail', job_title=job._1) }}">
+                <div class="job-title">{{ job._1 }}</div>
+                <div class="match-percentage">Match: {{ "%.2f"|format(job.match_percentage) }}%</div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% elif matched_jobs is not none %}
+    <p>No jobs matched your criteria. Please try again.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+{% block debug %}
+<h4>Debugging Information</h4>
+
+<!-- User's Saved Answers -->
+<h5>Saved Answers:</h5>
+<pre>{{ saved_answers }}</pre>
+
+<!-- Button to check all checkboxes when in debug mode -->
+<button id="check-all-button">Check All</button>
+
+<!-- Calculation Details -->
+{% if matched_jobs is not none and matched_jobs|length > 0 %}
+    <h5>Calculation Details</h5>
+    <p><strong>Total Possible Matches:</strong> {{ matched_jobs.iloc[0]['total_possible_matches'] }}</p>
+    <p><strong>Total Matches Found:</strong> {{ matched_jobs.iloc[0]['total_matches_found'] }}</p>
+    <p><strong>Match Percentage:</strong> {{ matched_jobs.iloc[0]['match_percentage'] }}%</p>
+{% endif %}
+
+<!-- Matched Jobs -->
+{% if matched_jobs is not none and matched_jobs|length > 0 %}
+<h5>Matched Jobs:</h5>
+<pre>{{ matched_jobs }}</pre>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,644 @@
+/* General Styles */
+* {
+   margin: 0;
+   padding: 0;
+   font-family: "Poppins", sans-serif;
+   box-sizing: border-box;
+}
+
+body {
+   color: #333;
+   background-color: #f9f9f9;
+   line-height: 1.6;
+   transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+   color: #f9f9f9;
+   background-color: #333;
+}
+
+/* Header Styles */
+header {
+   background-color: #0e8388;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 1rem 2rem;
+}
+
+.header-content {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   width: 100%;
+}
+
+header h1 {
+   font-size: 2em;
+   margin: 0;
+}
+
+header h1 a {
+   color: white;
+   text-decoration: none;
+}
+
+header h1 a:hover {
+   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
+}
+
+/* Navigation Styles */
+nav {
+   display: flex;
+   align-items: center;
+}
+
+.nav-links {
+   display: flex;
+   list-style: none;
+   margin-right: 20px;
+}
+
+.nav-links li {
+   margin: 0 10px;
+}
+
+.nav-links a {
+   color: white;
+   text-decoration: none;
+   font-size: 1.5em;
+   transition: text-shadow 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
+}
+
+#theme-toggle {
+   background: none;
+   border: 1px solid white;
+   color: white;
+   padding: 5px 10px;
+   cursor: pointer;
+   border-radius: 5px;
+   transition: background-color 0.3s, color 0.3s;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+#theme-toggle.dark-mode {
+   border: 1px solid #ddd;
+   color: #ddd;
+}
+
+#theme-toggle i {
+   font-size: 1.2em;
+}
+
+/* Job List Styles */
+.careers {
+   width: 80%;
+   margin: auto;
+   text-align: center;
+   padding-top: 50px;
+}
+
+.careers h2 {
+   margin-bottom: 30px;
+   font-size: 32px;
+}
+
+#container-1 {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   font-size: 22px;
+}
+
+.career-col {
+   width: 200px;
+   height: 150px;
+   background: #0e8388;
+   color: #fff;
+   text-align: center;
+   border-radius: 10px;
+   margin: 10px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-decoration: none;
+   transition: background 0.3s ease;
+}
+
+.career-col div {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.career-col:hover {
+   background: #0c6c73;
+}
+
+/* Dark Mode Adjustments */
+body.dark-mode .career-col {
+   background: #444;
+   color: #fff;
+}
+
+body.dark-mode .career-col:hover {
+   background: #555;
+}
+
+/* Footer Styles */
+.footer {
+   text-align: center;
+   padding: 30px 0;
+   background-color: #0e8388;
+   color: white;
+   margin-top: 40px;
+}
+
+body.dark-mode .footer {
+   background-color: #222;
+}
+
+/* Main Content Styles */
+main {
+   max-width: 1200px;
+   margin: auto;
+   padding: 20px;
+}
+
+/* Quiz Form Styling */
+.quiz-container {
+   background-color: #fff;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   margin-top: 20px;
+}
+
+.quiz-container h2 {
+   margin-bottom: 20px;
+}
+
+body.dark-mode .quiz-container {
+   background-color: #444;
+   color: white;
+}
+
+.question {
+   margin-bottom: 20px;
+}
+
+.question label {
+   font-weight: bold;
+   margin-bottom: 10px;
+   display: block;
+   font-size: 20px;
+}
+
+.question-text {
+   font-weight: bold;
+}
+
+.checkbox-container .checkbox-item label {
+   font-weight: normal;
+}
+
+body.dark-mode .checkbox-container .checkbox-item label {
+   color: white;
+}
+
+.select-dropdown option {
+   font-weight: normal;
+}
+
+.select-dropdown {
+   width: 100%;
+   padding: 8px;
+   border-radius: 5px;
+   border: 1px solid #ccc;
+   background-color: white;
+   color: #333;
+   transition: border-color 0.3s;
+   font-size: 20px;
+}
+
+body.dark-mode .select-dropdown {
+   background-color: #555;
+   color: white;
+   border: 1px solid #777;
+}
+
+.select-dropdown:hover,
+.select-dropdown:focus {
+   border-color: #0e8388;
+}
+
+body.dark-mode .select-dropdown:hover,
+body.dark-mode .select-dropdown:focus {
+   border-color: #66ccff;
+}
+
+.checkbox-container {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+   gap: 10px;
+   margin-bottom: 20px;
+}
+
+.checkbox-item {
+   display: flex;
+   align-items: center;
+   font-size: 20px;
+}
+
+input[type="checkbox"] {
+   margin-right: 10px;
+}
+
+input[type="checkbox"]:focus + label,
+input[type="checkbox"]:hover + label {
+   color: #0e8388;
+}
+
+body.dark-mode input[type="checkbox"]:focus + label,
+body.dark-mode input[type="checkbox"]:hover + label {
+   color: #66ccff;
+}
+
+/* Button Styles */
+.submit-btn {
+   display: inline-block;
+   text-decoration: none;
+   border: 1px solid #000;
+   padding: 10px 20px;
+   font-size: 15px;
+   background: transparent;
+   cursor: pointer;
+   color: #000;
+   margin-top: 20px;
+   border-radius: 5px;
+}
+
+.submit-btn:hover {
+   border: 1px solid #0e8388;
+   background: #0e8388;
+   color: white;
+   transition: 0.5s;
+}
+
+body.dark-mode .submit-btn {
+   border: 1px solid #ddd;
+   color: #ddd;
+}
+
+body.dark-mode .submit-btn:hover {
+   border: 1px solid #0e8388;
+   background: #0e8388;
+   color: white;
+}
+
+/* Job Detail Styles */
+.each-career {
+   width: 80%;
+   margin: 20px auto;
+   padding: 20px;
+   background: white;
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.each-career h2 {
+   margin-bottom: 10px;
+   font-weight: bold;
+   font-size: 1.8em;
+   color: #0e8388;
+}
+
+body.dark-mode .each-career h2 {
+   color: #66ccff;
+}
+
+body.dark-mode .each-career {
+   background: #444;
+   color: white;
+}
+
+.job-detail-section {
+   margin-bottom: 20px;
+}
+
+.job-detail-section h3 {
+   color: #0e8388;
+   margin-bottom: 10px;
+}
+
+body.dark-mode .job-detail-section h3 {
+   color: #66ccff;
+}
+
+.job-detail-section p {
+   margin-left: 20px;
+   padding-left: 20px;
+}
+
+ul {
+   list-style-type: none;
+   padding-left: 20px;
+   margin-left: 20px;
+}
+
+ul li {
+   margin-bottom: 5px;
+   text-indent: -20px;
+   padding-left: 20px;
+}
+
+ul li::before {
+   content: "•";
+   color: #0e8388;
+   padding-right: 10px;
+}
+
+body.dark-mode ul li::before {
+   color: #66ccff;
+}
+
+ul li.matched {
+   color: green;
+}
+
+ul li.unmatched {
+   color: red;
+}
+
+body.dark-mode ul li.matched {
+   color: lightgreen;
+}
+
+body.dark-mode ul li.unmatched {
+   color: lightcoral;
+}
+
+/* Back Link */
+.back-link {
+   display: inline-block;
+   margin-top: 20px;
+   color: #0066cc;
+   text-decoration: none;
+   font-weight: bold;
+}
+
+.back-link:hover {
+   text-decoration: underline;
+}
+
+body.dark-mode .back-link {
+   color: #66ccff;
+}
+
+/* Footer Styles */
+.footer {
+   text-align: center;
+   padding: 30px 0;
+   background-color: #0e8388;
+   color: white;
+   margin-top: 40px;
+   }
+   
+   body.dark-mode .footer {
+   background-color: #222;
+   }
+
+   /* Matched Jobs Styles */
+.matched-jobs-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.job-card {
+    background-color: #0e8388;
+    color: white;
+    border-radius: 10px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card a {
+    color: white;
+    text-decoration: none;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.job-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.match-percentage {
+    font-size: 0.9em;
+    color: #ddd;
+}
+
+/* Dark Mode Adjustments */
+body.dark-mode .job-card {
+    background-color: #444;
+    color: #ddd;
+}
+
+body.dark-mode .job-card:hover {
+    background-color: #555;
+}
+
+body.dark-mode .job-card a {
+    color: #ddd;
+}
+
+body.dark-mode .match-percentage {
+    color: #bbb;
+}
+
+/* Matched Jobs Styles */
+.matched-jobs-container {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 15px;
+   margin-top: 20px;
+}
+
+.job-card {
+   background-color: #0e8388;
+   color: white;
+   border-radius: 10px;
+   padding: 15px;
+   width: 200px;
+   text-align: center;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card a {
+   color: white;
+   text-decoration: none;
+}
+
+.job-card:hover {
+   transform: translateY(-5px);
+   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.job-title {
+   font-weight: bold;
+   margin-bottom: 5px;
+}
+
+.match-percentage {
+   font-size: 0.9em;
+   color: #ddd;
+}
+
+/* Dark Mode Adjustments */
+body.dark-mode .job-card {
+   background-color: #444;
+   color: #ddd;
+}
+
+body.dark-mode .job-card:hover {
+   background-color: #555;
+}
+
+body.dark-mode .job-card a {
+   color: #ddd;
+}
+
+body.dark-mode .match-percentage {
+   color: #bbb;
+}
+
+.job-match {
+   padding: 10px;
+   margin: 10px 0;
+   border-radius: 5px;
+}
+
+.job-link {
+   color: white;
+   text-decoration: none;
+}
+
+.job-link:hover {
+   text-decoration: underline;
+}
+
+.neutral {
+   color: inherit; /* Use the default text color */
+}
+
+.trends-table {
+   width: 100%;
+   border-collapse: collapse;
+   margin: 20px 0;
+   font-size: 1em;
+   text-align: left;
+}
+
+.trends-table th, .trends-table td {
+   padding: 12px 15px;
+}
+
+.trends-table thead tr {
+   background-color: #009879;
+   color: #ffffff;
+   text-align: left;
+}
+
+.trends-table tbody tr {
+   border-bottom: 1px solid #dddddd;
+}
+
+.trends-table tbody tr:nth-of-type(even) {
+   background-color: #f3f3f3;
+}
+
+.trends-table tbody tr:last-of-type {
+   border-bottom: 2px solid #009879;
+}
+
+/* styles.css or within <style> tag in your HTML */
+.button {
+   background-color: #4CAF50; /* Green background */
+   border: none; /* Remove borders */
+   color: white; /* White text */
+   padding: 10px 20px; /* Add some padding */
+   text-align: center; /* Center the text */
+   text-decoration: none; /* Remove underline */
+   display: inline-block; /* Make the button inline */
+   font-size: 16px; /* Increase font size */
+   margin: 4px 2px; /* Add some margin */
+   cursor: pointer; /* Pointer cursor on hover */
+   border-radius: 5px; /* Rounded corners */
+   transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.button:hover {
+   background-color: #45a049; /* Darker green on hover */
+}
+
+.content-wrapper {
+   display: flex;
+   justify-content: space-between;
+}
+
+.main-content {
+   flex: 3;
+   padding-right: 20px;
+}
+
+.sidebar {
+   flex: 1;
+   max-width: 300px;
+   background-color: #f5f5f5;
+   padding: 15px;
+   border-radius: 8px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.matched-jobs-list {
+   margin-top: 20px;
+}
+
+.job-card {
+   margin-bottom: 15px;
+   padding: 10px;
+   background-color: #fff;
+   border-radius: 8px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   text-align: center;
+}
+
+.job-card .job-title {
+   font-weight: bold;
+   margin-bottom: 5px;
+}
+
+.job-card .match-percentage {
+   color: #4caf50;
+}
