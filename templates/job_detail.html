@@ -1,92 +1,32 @@
 {% extends "base.html" %}
 
+{% macro render_list(items, title) %}
+<div class="job-detail-section">
+    <h3>{{ title }}</h3>
+    <ul>
+        {% for item in items %}
+        <li class="{% if saved_answers is defined and item['matched'] is not none %}{{ 'matched' if item['matched'] else 'unmatched' }}{% else %}neutral{% endif %}">
+            {{ item['item'] | capitalize }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endmacro %}
+
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="each-career">
     <h2>{{ job['Job Title'] }}</h2>
-    
-    <div class="job-detail-section">
-        <h3>Also Known As</h3> 
-        <p>{{ job['Also Known As'] }}</p>
-    </div>
-    
-    <div class="job-detail-section">
-        <h3>Knowledge Required</h3>
-        <ul>
-            {% for knowledge in match_info['knowledge'] %}
-            <li class="{% if knowledge['matched'] is not none %}{{ 'matched' if knowledge['matched'] else 'unmatched' }}{% else %}neutral{% endif %}">
-                {{ knowledge['item'] }}
-            </li>
-            {% endfor %}
-        </ul>        
-    </div>
-    
-    <div class="job-detail-section">
-        <h3>Skills Required</h3>
-        <ul>
-            {% for skill in match_info['skills'] %}
-            <li class="{% if skill['matched'] is not none %}{{ 'matched' if skill['matched'] else 'unmatched' }}{% else %}neutral{% endif %}">
-                {{ skill['item'] }}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    
-    <div class="job-detail-section">
-        <h3>Abilities Required</h3>
-        <ul>
-            {% for ability in match_info['abilities'] %}
-            <li class="{% if ability['matched'] is not none %}{{ 'matched' if ability['matched'] else 'unmatched' }}{% else %}neutral{% endif %}">
-                {{ ability['item'] }}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    
-    <div class="job-detail-section">
-        <h3>Education Required</h3>
-        <ul>
-            {% for education in match_info['education'] %}
-            <li class="{% if education['matched'] is not none %}{{ 'matched' if education['matched'] else 'unmatched' }}{% else %}neutral{% endif %}">
-                {{ education['item'] }}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
 
-    <div class="job-detail-section">
-        <h3>Certifications Required</h3>
-        <ul>
-            {% for certifications in match_info['certifications'] %}
-            <li class="{% if certifications['matched'] is not none %}{{ 'matched' if certifications['matched'] else 'unmatched' }}{% else %}neutral{% endif %}">
-                {{ certifications['item'] }}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    
-    <div class="job-detail-section">
-        <h3>Additional Training Required</h3>
-        <ul>
-            {% for training in match_info['training'] %}
-            <li class="{% if training['matched'] is not none %}{{ 'matched' if training['matched'] else 'unmatched' }}{% else %}neutral{% endif %}">
-                {{ training['item'] }}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    
-    <div class="job-detail-section">
-        <h3>Experience Required</h3>
-        <ul>
-            {% for experience in match_info['experience'] %}
-            <li class="{% if experience['matched'] is not none %}{{ 'matched' if experience['matched'] else 'unmatched' }}{% else %}neutral{% endif %}">
-                {{ experience['item'] }}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
+    {{ render_list(match_info['abilities'], 'Abilities Required') }}
+    {{ render_list(match_info['education'], 'Education Required') }}
+    {{ render_list(match_info['certifications'], 'Certifications Required') }}
+    {{ render_list(match_info['training'], 'Additional Training Required') }}
+    {{ render_list(match_info['skills'], 'Skills Required') }}
+    {{ render_list(match_info['knowledge'], 'Knowledge Required') }}
+    {{ render_list(match_info['experience'], 'Experience Required') }}
+
     <div class="job-detail-section">
         <h3>Next Steps</h3>
         {% if suggestions %}
@@ -98,41 +38,40 @@
                         <strong>{{ item.capitalize() }}</strong>: 
                         <ul>
                             {% for resource in resources %}
-                                <li>{{ resource }}</li>
+                                <li>{{ resource | capitalize }}</li>
                             {% endfor %}
                         </ul>
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p>You meet all the requirements for this job!</p>
+            <p>Unknown</p>
         {% endif %}
     </div>
-    
-    
-    {% if trends_data is not none and not trends_data.empty %}
+
     <div class="job-detail-section">
         <h3>Google Trends Insights</h3>
-        {% if percent_change is not none %}
-        <p>Interest has changed by 
-            <span style="font-size: 1.2em; color: {% if percent_change >= 10 %}green{% elif percent_change >= 0 %}orange{% else %}red{% endif %};">
-            {{ percent_change|round(2) }}%
-            </span> over the past 5 years.
-        </p>
+        {% if trends_data is not none and not trends_data.empty %}
+            {% if percent_change is not none %}
+                <p>Interest has changed by 
+                    <span style="font-size: 1.2em; color: {% if percent_change >= 10 %}green{% elif percent_change >= 0 %}orange{% else %}red{% endif %};">
+                    {{ percent_change|round(2) }}%
+                    </span> over the past 5 years.
+                </p>
+            {% else %}
+                <p>No sufficient trend data available for this job title over the past 5 years.</p>
+            {% endif %}
         {% else %}
-        <p>No sufficient trend data available for this job title over the past 5 years.</p>
+            <p>No trend data available for this job title.</p>
         {% endif %}
-    {% endif %}
-    
-        
-    
-</div> <!-- close each-career -->
+    </div>
+</div>
 {% endblock %}
 
 {% block debug %}
 <div class="debug-container">
     <h3>Debug Information</h3>
-    
+
     <p><strong>Overall Match Percentage:</strong> {{ match_percentage }}%</p>
     <h4>User Inputs</h4>
     {% if saved_answers is defined %}
@@ -142,10 +81,10 @@
                 {% if values %}
                     <ul>
                         {% if values is string %}
-                            <li>{{ values }}</li>  <!-- For single string values -->
+                            <li>{{ values }}</li>
                         {% else %}
                             {% for value in values %}
-                                <li>{{ value }}</li>  <!-- For lists or multiple items -->
+                                <li>{{ value | capitalize }}</li>
                             {% endfor %}
                         {% endif %}
                     </ul>
@@ -157,10 +96,22 @@
     {% else %}
         <p>No user inputs available.</p>
     {% endif %}
-    
+
     <h4>Calculation Details</h4>
     <p><strong>Total Possible Matches:</strong> {{ total_possible_matches }}</p>
     <p><strong>Total Matches Found:</strong> {{ total_matches }}</p>
 
+    <h4>Match Details</h4>
+    <ul>
+        {% for category, matches in match_details %}
+            <li><strong>{{ category | capitalize }}:</strong>
+                <ul>
+                    {% for match in matches %}
+                        <li>{{ match | capitalize }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
-    {% endblock %}
+{% endblock %}
