@@ -1,4 +1,5 @@
 import os
+import re
 from flask import Flask, render_template, request, session, redirect, url_for
 import pandas as pd
 import numpy as np
@@ -126,20 +127,22 @@ quiz_questions = [
 
 # Education level mapping
 education_levels = {
-    'high school diploma or equivalent': 1,
-    'associate’s degree in organizational psychology or related field': 2,
-    'bachelor’s degree in organizational psychology or related field': 3,
-    'master’s degree in organizational psychology or related field': 4,
-    'phd in organizational psychology or related field': 5
+    'bachelors or masters degree in data science research or related field': 1,
+    'bachelors or masters degree in human resources business administration or related field': 1,
+    'bachelors or masters degree in organizational psychology or related field': 1,
+    'masters degree in data science human resources or related field': 2,
+    'masters degree in organizational psychology or related field': 2,
+    'phd in organizational psychology or related field': 3
 }
 
 def get_education_level(education_item):
-    # Split the education item by 'or' and get the minimum level (since job accepts any)
-    parts = education_item.split('or')
-    levels = [education_levels.get(normalize(part.strip()), 0) for part in parts]
-    return min(levels, default=0)
+    # Directly normalize and look up the entire education string
+    normalized_item = normalize(education_item)
+    return education_levels.get(normalized_item, 0)
+
 
 def get_experience_level(experience_item):
+    # sourcery skip: use-getitem-for-re-match-groups
     import re
     if match := re.search(r'(\d+)-(\d+)', experience_item):
         return int(match.group(1))
@@ -190,11 +193,19 @@ def calculate_match_score(job, user_answers=None):
         for job_item in job_education_items:
             # Normalize job item
             job_item_normalized = normalize(job_item)
-            # Get education levels from job requirement
-            job_levels = [get_education_level(part.strip()) for part in job_item_normalized.split('or')]
-            job_education_level = min(job_levels) if job_levels else 0
-            is_matched = user_education_level >= job_education_level
+            job_education_level = get_education_level(job_item_normalized)  # Direct lookup
+
+            # Allow PhD (level 3) to match lower levels, but not the other way around
+            is_matched = user_education_level >= job_education_level or (
+                user_education_level == 3 and job_education_level < 3  # Ph.D. matches lower levels
+            )
+
+            # Make sure that higher requirements (e.g., PhD) don't match with lower user education (e.g., Bachelor)
+            if job_education_level == 3 and user_education_level < 3:
+                is_matched = False
+
             matched_criteria['education'].append({'item': job_item, 'matched': is_matched})
+            
             if is_matched:
                 total_matches += 1
 
@@ -277,6 +288,7 @@ def calculate_match_score(job, user_answers=None):
     match_percentage = (total_matches / total_possible_matches) * 100 if total_possible_matches > 0 else 0
 
     return match_percentage, matched_criteria, total_possible_matches, total_matches
+
 
 @app.route('/')
 def index():

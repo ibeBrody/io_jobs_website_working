@@ -35,17 +35,17 @@
             <ul id="suggestions-list" style="display: none;">
                 {% for item, resources in suggestions.items() %}
                     <li>
-                        <strong>{{ item.capitalize() }}</strong>: 
+                        <strong>{{ item|title }}</strong>: 
                         <ul>
                             {% for resource in resources %}
-                                <li>{{ resource | capitalize }}</li>
+                                <li>{{ resource|title }}</li>
                             {% endfor %}
                         </ul>
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p>You either have not taken the quiz yet, there is no available resources, or you don't need any next steps. </p>
+            <p>You either have not taken the quiz yet, there are no available resources, or you don't need any next steps. </p>
         {% endif %}
     </div>
 
